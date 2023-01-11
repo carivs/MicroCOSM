@@ -13,6 +13,7 @@ File types:
 The files in their current format will run the 'status quo' of HPV vaccination and cervical cancer screening in South Africa, from 1985 to 2040, 5 iterations per parameter combination (PC). The output will be text files containing average (over 5 iterations) age standardised rates (ASR) between 1985 and 2040 of cervical cancer incidence, diagnosed cervical cancer incidence, and cervical cancer death, standardised using two different standard world populations. 
 
 To compile: g++ -std=c++14 Microsimulation.cpp StatFunctions.cpp mersenne.cpp -o Microsimulation
+
 To run: ./Microsimulation 1 (This will run the code for the first PC. The code is set up to run on a cluster, with each PC running on one core.)
 
 One PC and 5 iterations should run about 30minutes.
