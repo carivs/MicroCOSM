@@ -8762,15 +8762,15 @@ void StoreOutputs()
 				CC_diag_ASR_ART.RecordSample("CC_diag_ASR_ART.txt");*/
 				CC_ASR2.RecordSample("CC_ASR2.txt");
 				CC_diag_ASR2.RecordSample("CC_diag_ASR2.txt");
-				CC_diag_ASR_death2.RecordSample("CC_diag_ASR_death2.txt");
+				//CC_diag_ASR_death2.RecordSample("CC_diag_ASR_death2.txt");
 				CC_ASR_death2.RecordSample("CC_ASR_death2.txt");
 				
 				CC_ASR3.RecordSample("CC_ASR3.txt");
 				CC_diag_ASR3.RecordSample("CC_diag_ASR3.txt");
-				CC_diag_ASR_death3.RecordSample("CC_diag_ASR_death3.txt");
+				//CC_diag_ASR_death3.RecordSample("CC_diag_ASR_death3.txt");
 				CC_ASR_death3.RecordSample("CC_ASR_death3.txt");
 				
-				CC_20.RecordSample("CC_20.txt");
+				/*CC_20.RecordSample("CC_20.txt");
 				CC_25.RecordSample("CC_25.txt");
 				CC_30.RecordSample("CC_30.txt");
 				CC_35.RecordSample("CC_35.txt");
@@ -8792,7 +8792,7 @@ void StoreOutputs()
 				CC_60diag.RecordSample("CC_60diag.txt");
 				CC_65diag.RecordSample("CC_65diag.txt");
 				CC_70diag.RecordSample("CC_70diag.txt");
-				CC_75diag.RecordSample("CC_75diag.txt");
+				CC_75diag.RecordSample("CC_75diag.txt");*/
 				
 				//StageI.RecordSample("StageI.txt");
 				//StageII.RecordSample("StageII.txt");
@@ -8808,7 +8808,7 @@ void StoreOutputs()
 				CCprevNOART.RecordSample("CCprevNOART.txt");
 				CCprevART.RecordSample("CCprevART.txt");*/
 				if(ParamCombs==1) {
-					RSApop.SavePopPyramid("PopulationPyramid.txt");	
+					/*RSApop.SavePopPyramid("PopulationPyramid.txt");	
 					RSApop.SavePopPyramid9("PopulationPyramid9.txt");	
 					RSApop.SaveNewScreen("ModelCoverage.txt");
 					RSApop.SaveStageI("StageIweeks.txt");
@@ -8821,18 +8821,18 @@ void StoreOutputs()
 					RSApop.SaveStageIVdiag("StageIVdiag.txt");
 					
 					//RSApop.SaveCancerCases("CancerCases.txt");
-					RSApop.SaveCancerDeaths("CancerDeaths.txt");
+					RSApop.SaveCancerDeaths("CancerDeaths.txt");*/
 					
 					//GetReferred.RecordSample("GetReferred.txt");
 					//GetTreatment.RecordSample("GetTreatment.txt");
-					for(xx=0; xx<13; xx++){
-						NewCCneg[xx].RecordSample("NewCCneg.txt",xx);
-						NewCCpos[xx].RecordSample("NewCCpos.txt",xx);
-						NewCCart[xx].RecordSample("NewCCart.txt",xx);
+					//for(xx=0; xx<13; xx++){
+						//NewCCneg[xx].RecordSample("NewCCneg.txt",xx);
+						//NewCCpos[xx].RecordSample("NewCCpos.txt",xx);
+						//NewCCart[xx].RecordSample("NewCCart.txt",xx);
 						/*NewHPVneg[xx].RecordSample("NewHPVneg.txt",xx);
 						NewHPVpos[xx].RecordSample("NewHPVpos.txt",xx);
 						NewHPVart[xx].RecordSample("NewHPVart.txt",xx);*/
-					}
+					//}
 				}
 			}
 			
