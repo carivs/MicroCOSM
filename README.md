@@ -7,7 +7,7 @@ Documentation still to be added.
 File types:
 * Microsimulation.cpp and .h are the main code files for the model.
 * Other C++ files (not my code) contain functions for the random number generator and statistical distributions. 
-* *RandomUniformHPV.txt files numbered from 1-100 contain random numbers that generate the best fitting parameter combinations.
+* *RandomUniformHPV.txt files numbered from 1-24 contain random numbers that generate the 24 best fitting parameter combinations.
 * Other txt files contain epidemiodemiological data and fixed parameters.
 
 The files in their current format will run the 'status quo' of HPV vaccination and cervical cancer screening in South Africa, from 1985 to 2040, 5 iterations per parameter combination (PC). The output will be text files containing average (over 5 iterations) age standardised rates (ASR) between 1985 and 2040 of cervical cancer incidence, diagnosed cervical cancer incidence, and cervical cancer death, standardised using two different standard world populations. 
