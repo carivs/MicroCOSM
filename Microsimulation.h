@@ -19,7 +19,7 @@ int StartYear = 1985; //do not change, ever!
 int CurrYear;
 int BehavCycleCount;
 int STDcycleCount;
-int ProjectionTerm =56; //max 136// 18 for 2000 to 2002 cohort // 36 for up to 2020
+int ProjectionTerm =36; //max 136// 18 for 2000 to 2002 cohort // 36 for up to 2020
 
 const int InitPop = 20000; //do not change, ever!
 const int MaxPop = 110000; //60000; change to 100000; if run to 2100;
@@ -95,7 +95,7 @@ double r[InitPop], rprisk[InitPop], rpID[InitPop], rSTI[MaxPop][100];
 double r2[MaxPop], revent[MaxPop], rpAge[MaxPop], rpID2[MaxPop], fokkit[MaxPop];
 const int ParamCombs =1; // number of input parameter combinations
 const int IterationsPerPC =5; // number of iterations per parameter combination
-const int samplesize =5; // number of simulations (must = ParamCombs * IterationsPerPC)
+const int samplesize =ParamCombs*IterationsPerPC; // number of simulations (must = ParamCombs * IterationsPerPC)
 int SeedRecord[ParamCombs][2]; // seeds used when FixedUncertainty = 1
 int GetSDfromData = 0; // Set to 1 if you want to calculate the standard deviation in the
 // likelihood function for the national prevalence data based on the
@@ -119,13 +119,18 @@ int targets = 0; //if one, need to specify WhichType
 int GetMacD = 0;
 
 //Strategy indicators
-int ImplementYR = 2022;
-int HPVvacc = 1; //1 if National HPV vaccination program is active since 2014
-int BOYSvacc = 0; //1 if boys are also included in the National vaccination programme
+int ImplementYR=2010;
+int HPVvacc=1; //1 if National HPV vaccination program is active since 2014
+int BOYSvacc=0; //1 if boys are also included in the National vaccination programme
 int RoutineScreening=1; //switch off screening =0
+
 int PerfectSchedule=0; //If SA's screening schedule is followed to a T
 int HPVDNA=0;
+int HPVDNAThermal=0;
+double PropThermal=1.0;
+int HPVGenotyping=0;
 int PapTRIAGE=0;
+int Portal3=0; //If 0:yearly follow-up ; If 1:test-and-treat ; NOT IMPLEMENTED YET If 2: PapTRIAGE
 //WHO Project indicators
 int WHOscenario = 0;  //in WHO scenario, vacc starts at age 10 (as opposed to 9 in SA) 
 int WHOvacc =0; //1 if Nonavalent vacc is rolled out 
@@ -1179,7 +1184,8 @@ public:
 	int VCstageE; // VC stage at end of cycle
 	
 	//HPV types: 16	18	31	33	35	39	45	51	52	56	58	59	68
-	int HPVstage[13]; // 0 = uninfected, 1 = infected, 2 = CIN1, 3 = CIN2, 4 = CIN3, 5 = CC-I, 6=latent, 7 = immune, 8 = CC-II, 9 = CC-III, 10 = CC-IV, 
+	vector<int> HPVstage;
+	//int HPVstage[13]; // 0 = uninfected, 1 = infected, 2 = CIN1, 3 = CIN2, 4 = CIN3, 5 = CC-I, 6=latent, 7 = immune, 8 = CC-II, 9 = CC-III, 10 = CC-IV, 
 					  // 11 = CC-I symptomatic,  12 = CC-II symptomatic, 13 = CC-III symptomatic, 14 = CC-IV symptomatic, 15 = recovered, 16 = Dead of cancer
 	int HPVstageE[13]; // HPV stage at end of cycle
 	int VaccinationStatus[13];
@@ -1213,7 +1219,10 @@ public:
 	int ScreenResult; //0=Normal; 1=LSIL; 2=HSIL; 3=CC
 	int ColResult; //0=Normal; 1=CIN1; 2=CIN2/3; 3=CC
 	int TrueStage; //0=Normal; 1=LSIL; 2=HSIL; 3=CC; 4=DiagnosedCC; 5=Recovered/Dead
+	int HPVstatus; //0=HPV negative (stages 0, 6, 7); 1=HPV positive
 	int repeat; //0=no; 1=yes
+	int HPVrepeat;
+	double ThermalORPap;
 	int reason; //0=routine screening; 1=diagnostic
 	int DiagnosedCC; //0=no; 1=yes 
 	int ARTnextScreen; //if 1, screen next round
@@ -1287,6 +1296,8 @@ public:
 							double SId, double SIId, double SIIId, double SIVd);
 	void HPVScreenAlgorithm(int ID, double rea, double ade, double tts, double res, double ttC, double CCd, double SI, double SII, double SIII, double SIV, 
 							double SId, double SIId, double SIIId, double SIVd);
+	void HPV_ThermalScreenAlgorithm(int ID, double rea, double ade, double tts, double res, double ttC, double CCd, double SI, double SII, double SIII, double SIV, 
+							double SId, double SIId, double SIIId, double SIVd);
 	void WHOGetScreened(int ID, double rea, double scr, double ade, double tts, double res, double ttC, double CCd, double SI, double SII, double SIII, double SIV, double clr, 
 							double SId, double SIId, double SIIId, double SIVd);
 	void WHOScreenAlgorithm(int ID,  double tts, double ttC,double clr, double SI, double SII, double SIII, double SIV, 
@@ -1297,6 +1308,8 @@ public:
 							double SId, double SIId, double SIIId, double SIVd);
 	
 	void AssignTimeinCIN3(int age_group, double p, int type );
+	bool AnyHPV(vector<int>HPVstage, vector<int>type_subset, vector<int> stage_subset);
+	
 };
 
 class Pop
@@ -1325,8 +1338,12 @@ public:
 	double MacDprev[500][14];
 	int NewScreen[54][136];
 	int NewHPVScreen[54][136];
+	int GetReferred[54][136];
 	int NewColposcopy[54][136];
 	int NewLLETZ[54][136];
+	int NewUnnecessary[54][136];
+	int NewVAT[54][136];
+	int NewThermal[54][136];
 	int NewVACC[108][136];
 	int TotScreens[8];
 	int NewCancer[18][136];
@@ -1367,6 +1384,10 @@ public:
 	double ModelVaccCoverage[108][136];
 	double ModelColpCoverage[54][136];
 	double ModelLLETZCoverage[54][136];
+	double ModelUnnecessaryCoverage[54][136];
+	double ModelVATCoverage[54][136];
+	double ModelThermalCoverage[54][136];
+	double ModelGetReferred[54][136];
 	//int TimeInCIN3mat[10000][2*samplesize];
 	int StartingConditionsUpdate[288][208]; //first index is 16 age categories*20 risk groups
 	int InitHPVStage[18][8];
@@ -1510,7 +1531,7 @@ public:
 // --------------------------------------------------------------------------------------
 
 // Functions for reading input parameters
-
+void ReadCCStrategies(const char* input);
 void ReadSexAssumps(const char* input);
 void ReadSTDepi(const char* input);
 void ReadRatesByYear();
@@ -1787,7 +1808,7 @@ PostOutputArray HPVprevF(136);
 
 PostOutputArray DiagCCPost2000(2);
 PostOutputArray TrueStageByYear(136);
-PostOutputArray GetReferred(136);
+//PostOutputArray GetReferred(136);
 PostOutputArray GetTreatment(136);
 //PostOutputArray Targets(160);
 
