@@ -94,7 +94,7 @@ int CycleD = 48; // Number of STD cycles per year (NB: must be integer multiple 
 double r[InitPop], rprisk[InitPop], rpID[InitPop], rSTI[MaxPop][100];
 double r2[MaxPop], revent[MaxPop], rpAge[MaxPop], rpID2[MaxPop], fokkit[MaxPop];
 const int ParamCombs =1; // number of input parameter combinations
-const int IterationsPerPC =5; // number of iterations per parameter combination
+const int IterationsPerPC =1; // number of iterations per parameter combination
 const int samplesize =ParamCombs*IterationsPerPC; // number of simulations (must = ParamCombs * IterationsPerPC)
 int SeedRecord[ParamCombs][2]; // seeds used when FixedUncertainty = 1
 int GetSDfromData = 0; // Set to 1 if you want to calculate the standard deviation in the
@@ -125,8 +125,8 @@ int BOYSvacc=0; //1 if boys are also included in the National vaccination progra
 int RoutineScreening=1; //switch off screening =0
 
 int PerfectSchedule=0; //If SA's screening schedule is followed to a T
-int HPVDNA=0;
-int HPVDNAThermal=0;
+int HPVDNA=1;
+int HPVDNAThermal=1; //HPVDNA should also be 1 if this is 1
 double PropThermal=1.0;
 int HPVGenotyping=0;
 int PapTRIAGE=0;
@@ -1184,8 +1184,8 @@ public:
 	int VCstageE; // VC stage at end of cycle
 	
 	//HPV types: 16	18	31	33	35	39	45	51	52	56	58	59	68
-	vector<int> HPVstage;
-	//int HPVstage[13]; // 0 = uninfected, 1 = infected, 2 = CIN1, 3 = CIN2, 4 = CIN3, 5 = CC-I, 6=latent, 7 = immune, 8 = CC-II, 9 = CC-III, 10 = CC-IV, 
+	//vector<int> HPVstage;
+	int HPVstage[13]; // 0 = uninfected, 1 = infected, 2 = CIN1, 3 = CIN2, 4 = CIN3, 5 = CC-I, 6=latent, 7 = immune, 8 = CC-II, 9 = CC-III, 10 = CC-IV, 
 					  // 11 = CC-I symptomatic,  12 = CC-II symptomatic, 13 = CC-III symptomatic, 14 = CC-IV symptomatic, 15 = recovered, 16 = Dead of cancer
 	int HPVstageE[13]; // HPV stage at end of cycle
 	int VaccinationStatus[13];
@@ -1308,7 +1308,7 @@ public:
 							double SId, double SIId, double SIIId, double SIVd);
 	
 	void AssignTimeinCIN3(int age_group, double p, int type );
-	bool AnyHPV(vector<int>HPVstage, vector<int>type_subset, vector<int> stage_subset);
+	bool AnyHPV(const int* XXX, const vector<int> & type_subset, const vector<int> & stage_subset);
 	
 };
 
@@ -1351,22 +1351,12 @@ public:
 	int StageIIdiag[54][136];
 	int StageIIIdiag[54][136];
 	int StageIVdiag[54][136];
-	int WeeksInStageIneg[18][101];
-	int WeeksInStageIIneg[18][101];
-	int WeeksInStageIIIneg[18][101];
-	int WeeksInStageIVneg[18][101];
-	int WeeksInStageIpos[18][101];
-	int WeeksInStageIIpos[18][101];
-	int WeeksInStageIIIpos[18][101];
-	int WeeksInStageIVpos[18][101];
-	int WeeksInStageIart[18][101];
-	int WeeksInStageIIart[18][101];
-	int WeeksInStageIIIart[18][101];
-	int WeeksInStageIVart[18][101];
+	int WeeksInStageI[54][101];
+	int WeeksInStageII[54][101];
+	int WeeksInStageIII[54][101];
+	int WeeksInStageIV[54][101];
 	int NewCancerDeath[18][136];
-	int NewCancerDeathNEG[18][136];
-	int NewCancerDeathPOS[18][136];
-	int NewCancerDeathART[18][136];
+	int NewCancerDeathHIV[54][136];
 	int NewCancerART[136];
 	int NewDiagCancer[18][136];
 	int NewDiagCancer1618[18][136];
@@ -1464,14 +1454,8 @@ public:
 	void GetMacDprev();
 	void SaveMacDprev(const char* filout);
 	void SaveNewScreen(const char* filout);
-	void SaveStageI(const char* filout);
-	void SaveStageII(const char* filout);
-	void SaveStageIII(const char* filout);
-	void SaveStageIV(const char* filout);
-	void SaveStageIdiag(const char* filout);
-	void SaveStageIIdiag(const char* filout);
-	void SaveStageIIIdiag(const char* filout);
-	void SaveStageIVdiag(const char* filout);
+	void SaveWeeksInStage(const char* filout);
+	void SaveStagediag(const char* filout);
 	void SaveAdultHPVstageAge(const char* filout);
 	void GetDurationofCIN3();
 	//void GetDurationofCIN3age();
