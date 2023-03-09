@@ -105,43 +105,6 @@ int VaryParameters = 1; // 1 if parameters vary across simulations
 int FixedUncertainty =1; // 0 if parameters vary stochastically, 1 if previously-
 // generated parameters are read in from input files, 0 if UseMedians=1
 
-//Things Cari have added
-int CCcalib =1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
-int UpdateStart = 0; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
-					 //FixedUncertainty should be 0. HIVind should be 0. RoutineScreening and HPVvacc should be 0.
-					 //CondomUsage should be se to zero, except for FSW!
-int CreateCohort =0; //if 1, extract all the information to do statistical analyses on HIV/HPV interaction. 
-                      //PCs from posterior distributions are read in. FixedUncertainty should be 1, unless UseMedians=1  
-int UseMedians =0;
-int OneType =0;  //if 1, only simulate one HPV type specified below, using posterior distributions, ONLY IF FixedUncertainty==1
-int WhichType = 0; //0=16 ; 1=18 ; 2=31 ; 3=33 ; 4=35 ; 5=39 ; 6=45 ; 7=51 ; 8=52 ; 9=56 ; 10=58 ; 11=59 ; 12=68
-int targets = 0; //if one, need to specify WhichType
-int GetMacD = 0;
-
-//Strategy indicators
-int ImplementYR=2010;
-int HPVvacc=1; //1 if National HPV vaccination program is active since 2014
-int BOYSvacc=0; //1 if boys are also included in the National vaccination programme
-int RoutineScreening=1; //switch off screening =0
-
-int PerfectSchedule=0; //If SA's screening schedule is followed to a T
-int HPVDNA=1;
-int HPVDNAThermal=1; //HPVDNA should also be 1 if this is 1
-double PropThermal=1.0;
-int HPVGenotyping=0;
-int PapTRIAGE=0;
-int Portal3=0; //If 0:yearly follow-up ; If 1:test-and-treat ; NOT IMPLEMENTED YET If 2: PapTRIAGE
-//WHO Project indicators
-int WHOscenario = 0;  //in WHO scenario, vacc starts at age 10 (as opposed to 9 in SA) 
-int WHOvacc =0; //1 if Nonavalent vacc is rolled out 
-int WHOScreening=0; 
-int S3S4=0;
-int S5S6=0;
-int S7S11=0;
-int CatchUpVaccHIV=0;
-int VaccineWane=0;
-int VaccDur=20;
-
 int CurrSim; // Counter for the current simulation
 int FixedPeriod = 0; // # years after start of projection in which we use the same seeds
 // (across all simulations), to limit variability in HIV simulations
@@ -363,6 +326,82 @@ double PropVaccinatedWHO; //proportion of girls vaccinated in the national progr
 double PropVaccinatedHIV; 
 double VaccEfficacy[13]; //HPV vaccine efficacy for each of 13 types (there is evidence of cross-protection)
 double VaccEfficacyNONA[13]; //HPV vaccine efficacy for each of 13 types (nonavalent vaccine)
+
+// ----------------------------------------------------------------------------------------
+// HPV/CC parameters not defined in the classes below
+// ----------------------------------------------------------------------------------------
+int CCcalib =1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
+int UpdateStart = 0; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
+					 //FixedUncertainty should be 0. HIVind should be 0. RoutineScreening and HPVvacc should be 0.
+					 //CondomUsage should be se to zero, except for FSW!
+int CreateCohort =0; //if 1, extract all the information to do statistical analyses on HIV/HPV interaction. 
+                      //PCs from posterior distributions are read in. FixedUncertainty should be 1, unless UseMedians=1  
+int UseMedians =0;
+int OneType =0;  //if 1, only simulate one HPV type specified below, using posterior distributions, ONLY IF FixedUncertainty==1
+int WhichType = 0; //0=16 ; 1=18 ; 2=31 ; 3=33 ; 4=35 ; 5=39 ; 6=45 ; 7=51 ; 8=52 ; 9=56 ; 10=58 ; 11=59 ; 12=68
+int targets = 0; //if one, need to specify WhichType
+int GetMacD = 0;
+
+//Strategy indicators
+int ImplementYR; //=2010;
+int HPVvacc; //=1; //1 if National HPV vaccination program is active since 2014
+int BOYSvacc; //=0; //1 if boys are also included in the National vaccination programme
+int RoutineScreening; //=1; //switch off screening =0
+
+
+
+int PerfectSchedule=0; //If SA's screening schedule is followed to a T
+int HPVDNA=0;
+int HPVDNAThermal=0;
+double PropThermal=1.0;
+int HPVGenotyping=0;
+int PapTRIAGE=0;
+int Portal3=0; //If 0:yearly follow-up ; If 1:test-and-treat ; NOT IMPLEMENTED YET If 2: PapTRIAGE
+//WHO Project indicators
+int WHOscenario = 0;  //in WHO scenario, vacc starts at age 10 (as opposed to 9 in SA) 
+int WHOvacc =0; //1 if Nonavalent vacc is rolled out 
+int WHOScreening=0; 
+int S3S4=0;
+int S5S6=0;
+int S7S11=0;
+int CatchUpVaccHIV=0;
+int VaccineWane=0;
+int VaccDur=20;
+/*int CCcalib;// =1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
+int UpdateStart;// = 0; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
+					 //FixedUncertainty should be 0. HIVind should be 0. RoutineScreening and HPVvacc should be 0.
+					 //CondomUsage should be se to zero, except for FSW!
+int CreateCohort;// =0; //if 1, extract all the information to do statistical analyses on HIV/HPV interaction. 
+                      //PCs from posterior distributions are read in. FixedUncertainty should be 1, unless UseMedians=1  
+int UseMedians;// =0;
+int OneType;// =0;  //if 1, only simulate one HPV type specified below, using posterior distributions, ONLY IF FixedUncertainty==1
+int WhichType;// = 0; //0=16 ; 1=18 ; 2=31 ; 3=33 ; 4=35 ; 5=39 ; 6=45 ; 7=51 ; 8=52 ; 9=56 ; 10=58 ; 11=59 ; 12=68
+int targets;// = 0; //if one, need to specify WhichType
+int GetMacD;// = 0;
+
+//Strategy indicators
+int ImplementYR;//=2010;
+int HPVvacc;//=1; //1 if National HPV vaccination program is active since 2014
+int BOYSvacc;//=0; //1 if boys are also included in the National vaccination programme
+int RoutineScreening;//=1; //switch off screening =0
+
+int PerfectSchedule;//=0; //If SA's screening schedule is followed to a T
+int HPVDNA;//=1;
+int HPVDNAThermal;//=1; //HPVDNA should also be 1 if this is 1
+double PropThermal;//=1.0;
+int HPVGenotyping;//=0;
+int PapTRIAGE;//=0;
+int Portal3;//=0; //If 0:yearly follow-up ; If 1:test-and-treat ; NOT IMPLEMENTED YET If 2: PapTRIAGE
+//WHO Project indicators
+int WHOscenario;// = 0;  //in WHO scenario, vacc starts at age 10 (as opposed to 9 in SA) 
+int WHOvacc;// =0; //1 if Nonavalent vacc is rolled out 
+int WHOScreening;//=0; 
+int S3S4;//=0;
+int S5S6;//=0;
+int S7S11;//=0;
+int CatchUpVaccHIV;//=0;
+int VaccineWane;//=0;
+int VaccDur;//=20;*/
 
 //double ScreenReason[8];
 double ScreenReason[8][136]; //Reason for screen by age + HIV status, over time
@@ -1188,6 +1227,16 @@ public:
 	int HPVstage[13]; // 0 = uninfected, 1 = infected, 2 = CIN1, 3 = CIN2, 4 = CIN3, 5 = CC-I, 6=latent, 7 = immune, 8 = CC-II, 9 = CC-III, 10 = CC-IV, 
 					  // 11 = CC-I symptomatic,  12 = CC-II symptomatic, 13 = CC-III symptomatic, 14 = CC-IV symptomatic, 15 = recovered, 16 = Dead of cancer
 	int HPVstageE[13]; // HPV stage at end of cycle
+	static const vector<int> allhpv;
+	static const vector<int> hpv1618;
+	static const vector<int> hpv161845;
+	
+	static const vector<int> lsil;
+	static const vector<int> hsil;
+	static const vector<int> cc_un;
+	static const vector<int> cc_diag;
+	static const vector<int> recover;
+
 	int VaccinationStatus[13];
 	int WasLatent[13];
 	int GotVacc;
@@ -1308,7 +1357,7 @@ public:
 							double SId, double SIId, double SIIId, double SIVd);
 	
 	void AssignTimeinCIN3(int age_group, double p, int type );
-	bool AnyHPV(const int* XXX, const vector<int> & type_subset, const vector<int> & stage_subset);
+	static bool AnyHPV(const int* XXX, const vector<int> & type_subset, const vector<int> & stage_subset);
 	
 };
 
@@ -1515,7 +1564,7 @@ public:
 // --------------------------------------------------------------------------------------
 
 // Functions for reading input parameters
-void ReadCCStrategies(const char* input);
+void ReadCCStrategies();
 void ReadSexAssumps(const char* input);
 void ReadSTDepi(const char* input);
 void ReadRatesByYear();
@@ -1689,7 +1738,7 @@ std::vector<PostOutputArray3> NewCCart(13);
 //PostOutputArray3 TimeinCIN3age(30);
 //PostOutputArray3 EverinCIN3age(30);
 //PostOutputArray3 FemPop(136);
-PostOutputArray3 NewHIV;
+//PostOutputArray3 NewHIV;
 //PostOutputArray2 NewScreen(136);
 
 //std::vector<PostOutputArray4> HPVparamsLogL(13);
