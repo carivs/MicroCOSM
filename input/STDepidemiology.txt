@@ -190,8 +190,6 @@ RatioUltToInitHIVtransm
 1.00
 SDsuscepHIVadj
 0.5
-Proportion vaccinated in school programme (PropVaccinated)
-0.90
 Vaccine efficacy (bi) 1.00	1.00	0.50	0.50	0.00	0.00	0.50	0.00	0.00	0.00	0.00	0.00	0.00
 1.00	1.00	0.50	0.50	0.00	0.00	0.50	0.00	0.00	0.00	0.00	0.00	0.00
 Proportion vaccinated in WHO project (PropVaccinatedWHO)

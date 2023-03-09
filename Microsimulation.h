@@ -321,7 +321,6 @@ double CurrPostnatal; // Propn of HIV-exposed kids infected postnatally in curre
 
 double PropinCIN3[15][60]; // prop of women per age group who have been in CIN3 for 0 to 60 years
 double PropVaccinated[136]; //proportion of girls vaccinated in the national programme. Assume constant for now
-double PropVacc;
 double PropVaccinatedWHO; //proportion of girls vaccinated in the national programme. Assume constant for now
 double PropVaccinatedHIV; 
 double VaccEfficacy[13]; //HPV vaccine efficacy for each of 13 types (there is evidence of cross-protection)
@@ -330,13 +329,13 @@ double VaccEfficacyNONA[13]; //HPV vaccine efficacy for each of 13 types (nonava
 // ----------------------------------------------------------------------------------------
 // HPV/CC parameters not defined in the classes below
 // ----------------------------------------------------------------------------------------
-int CCcalib =1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
-int UpdateStart = 0; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
+//int CCcalib=1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
+/*int UpdateStart; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
 					 //FixedUncertainty should be 0. HIVind should be 0. RoutineScreening and HPVvacc should be 0.
 					 //CondomUsage should be se to zero, except for FSW!
-int CreateCohort =0; //if 1, extract all the information to do statistical analyses on HIV/HPV interaction. 
+int CreateCohort; //if 1, extract all the information to do statistical analyses on HIV/HPV interaction. 
                       //PCs from posterior distributions are read in. FixedUncertainty should be 1, unless UseMedians=1  
-int UseMedians =0;
+int UseMedians;
 int OneType =0;  //if 1, only simulate one HPV type specified below, using posterior distributions, ONLY IF FixedUncertainty==1
 int WhichType = 0; //0=16 ; 1=18 ; 2=31 ; 3=33 ; 4=35 ; 5=39 ; 6=45 ; 7=51 ; 8=52 ; 9=56 ; 10=58 ; 11=59 ; 12=68
 int targets = 0; //if one, need to specify WhichType
@@ -347,8 +346,6 @@ int ImplementYR; //=2010;
 int HPVvacc; //=1; //1 if National HPV vaccination program is active since 2014
 int BOYSvacc; //=0; //1 if boys are also included in the National vaccination programme
 int RoutineScreening; //=1; //switch off screening =0
-
-
 
 int PerfectSchedule=0; //If SA's screening schedule is followed to a T
 int HPVDNA=0;
@@ -366,8 +363,8 @@ int S5S6=0;
 int S7S11=0;
 int CatchUpVaccHIV=0;
 int VaccineWane=0;
-int VaccDur=20;
-/*int CCcalib;// =1; //if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
+int VaccDur=20;*/
+int CCcalib;   // if 0, all parameters are drawn from priors, if 1, medians of CIN parameters are read
 int UpdateStart;// = 0; //if 1, get new starting conditions for HPV stages. Use medians from posteriors. 
 					 //FixedUncertainty should be 0. HIVind should be 0. RoutineScreening and HPVvacc should be 0.
 					 //CondomUsage should be se to zero, except for FSW!
@@ -401,7 +398,7 @@ int S5S6;//=0;
 int S7S11;//=0;
 int CatchUpVaccHIV;//=0;
 int VaccineWane;//=0;
-int VaccDur;//=20;*/
+int VaccDur;//=20;
 
 //double ScreenReason[8];
 double ScreenReason[8][136]; //Reason for screen by age + HIV status, over time

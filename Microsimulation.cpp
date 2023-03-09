@@ -4147,18 +4147,10 @@ void Pop::GetPopPyramid()
 				PopPyramidAll[ia][ig] += 1;
 				if(Register[ic].HIVstage==5){PopPyramidAllART[ig] += 1;}
 				if(Register[ic].AgeExact>=9 && Register[ic].AgeExact<10) {PopPyramid9[ih][ig] += 1;}
-				/*if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[0]==2||Register[ic].HPVstage[0]==3||Register[ic].HPVstage[0]==4||Register[ic].HPVstage[0]==5||
-				Register[ic].HPVstage[1]==1||Register[ic].HPVstage[1]==2||Register[ic].HPVstage[1]==3||Register[ic].HPVstage[1]==4||Register[ic].HPVstage[1]==5||
-				Register[ic].HPVstage[2]==1||Register[ic].HPVstage[2]==2||Register[ic].HPVstage[2]==3||Register[ic].HPVstage[2]==4||Register[ic].HPVstage[2]==5||
-				Register[ic].HPVstage[3]==1||Register[ic].HPVstage[3]==2||Register[ic].HPVstage[3]==3||Register[ic].HPVstage[3]==4||Register[ic].HPVstage[3]==5||
-				Register[ic].HPVstage[6]==1||Register[ic].HPVstage[6]==2||Register[ic].HPVstage[6]==3||Register[ic].HPVstage[6]==4||Register[ic].HPVstage[6]==5||
-				Register[ic].HPVstage[8]==1||Register[ic].HPVstage[8]==2||Register[ic].HPVstage[8]==3||Register[ic].HPVstage[8]==4||Register[ic].HPVstage[8]==5||
-				Register[ic].HPVstage[10]==1||Register[ic].HPVstage[10]==2||Register[ic].HPVstage[10]==3||Register[ic].HPVstage[10]==4||Register[ic].HPVstage[10]==5){
+				/*if(Indiv::AnyHPV(Register[ic].HPVstage,  {0,1,2,3,6,8,10}, {1,2,3,4,5})){
 					HPVprevVT[18*ih + ia][ig] += 1;
 				}
-				if(Register[ic].TrueStage>0||Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||
-				Register[ic].HPVstage[4]==1||Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||
-				Register[ic].HPVstage[9]==1||Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1){
+				if(Register[ic].HPVstatus==1){
 					HPVprevAll[18*ih + ia][ig] += 1;
 				}*/
 				if(Register[ic].TrueStage>1 ){
@@ -4956,7 +4948,6 @@ void Pop::OneYear()
 	CalcNonHIVfert();
 	
 	GetCurrSTIprev();
-	
 	if (FixedUncertainty == 1 && CCcalib==0) {
 		GetCurrHPVstage();
 	}
@@ -6766,41 +6757,26 @@ void Pop::GetSTDtransitions()
 				//if (CTind == 1){ Register[ic].GetNewCTstate(ic + 1, rSTI[ic][4]); }
 				//if (TVind == 1){ Register[ic].GetNewTVstate(ic + 1, rSTI[ic][5]); }
 				if (HPVind == 1){ 
-					//if (OneType == 0 && targets == 0){
-						for (xx = 0; xx < 13; xx++){
-							Register[ic].GetNewHPVstate(ic + 1, rSTI[ic][8 + xx], xx);
-						}
-						if(Register[ic].SexInd==1){
-							Register[ic].TrueStage=0;
-							if ((Register[ic].HPVstageE[0]==2||Register[ic].HPVstageE[1]==2||Register[ic].HPVstageE[2]==2||Register[ic].HPVstageE[3]==2||Register[ic].HPVstageE[4]==2||Register[ic].HPVstageE[5]==2||
-								Register[ic].HPVstageE[6]==2||Register[ic].HPVstageE[7]==2||Register[ic].HPVstageE[8]==2||Register[ic].HPVstageE[9]==2||Register[ic].HPVstageE[10]==2||
-								Register[ic].HPVstageE[11]==2||Register[ic].HPVstageE[12]==2) && Register[ic].AliveInd==1) { Register[ic].TrueStage=1;}
-							//if ((Indiv::AnyHPV(Register[ic].HPVstage,  allhpv, {2})) && Register[ic].AliveInd==1) { Register[ic].TrueStage=1;}
-							
-							if ((Register[ic].HPVstageE[0]==3||Register[ic].HPVstageE[1]==3||Register[ic].HPVstageE[2]==3||Register[ic].HPVstageE[3]==3||Register[ic].HPVstageE[4]==3||Register[ic].HPVstageE[5]==3||
-								Register[ic].HPVstageE[6]==3||Register[ic].HPVstageE[7]==3||Register[ic].HPVstageE[8]==3||Register[ic].HPVstageE[9]==3||Register[ic].HPVstageE[10]==3||
-								Register[ic].HPVstageE[11]==3||Register[ic].HPVstageE[12]==3||Register[ic].HPVstageE[0]==4||Register[ic].HPVstageE[1]==4||Register[ic].HPVstageE[2]==4||Register[ic].HPVstageE[3]==4||Register[ic].HPVstageE[4]==4||Register[ic].HPVstageE[5]==4||
-								Register[ic].HPVstageE[6]==4||Register[ic].HPVstageE[7]==4||Register[ic].HPVstageE[8]==4||Register[ic].HPVstageE[9]==4||Register[ic].HPVstageE[10]==4||
-								Register[ic].HPVstageE[11]==4||Register[ic].HPVstageE[12]==4) && Register[ic].AliveInd==1) {Register[ic].TrueStage=2;}
-							if ((Register[ic].HPVstageE[0]==5||Register[ic].HPVstageE[1]==5||Register[ic].HPVstageE[2]==5||Register[ic].HPVstageE[3]==5||Register[ic].HPVstageE[4]==5||Register[ic].HPVstageE[5]==5||
-								Register[ic].HPVstageE[6]==5||Register[ic].HPVstageE[7]==5||Register[ic].HPVstageE[8]==5||Register[ic].HPVstageE[9]==5||Register[ic].HPVstageE[10]==5||
-								Register[ic].HPVstageE[11]==5||Register[ic].HPVstageE[12]==5||Register[ic].HPVstageE[0]>7||Register[ic].HPVstageE[1]>7||Register[ic].HPVstageE[2]>7||Register[ic].HPVstageE[3]>7||Register[ic].HPVstageE[4]>7||Register[ic].HPVstageE[5]>7||
-								Register[ic].HPVstageE[6]>7||Register[ic].HPVstageE[7]>7||Register[ic].HPVstageE[8]>7||Register[ic].HPVstageE[9]>7||Register[ic].HPVstageE[10]>7||
-								Register[ic].HPVstageE[11]>7||Register[ic].HPVstageE[12]>7) && Register[ic].AliveInd==1) {Register[ic].TrueStage=3;}
-							if ((Register[ic].HPVstageE[0]>10||Register[ic].HPVstageE[1]>10||Register[ic].HPVstageE[2]>10||Register[ic].HPVstageE[3]>10||Register[ic].HPVstageE[4]>10||Register[ic].HPVstageE[5]>10||
-								Register[ic].HPVstageE[6]>10||Register[ic].HPVstageE[7]>10||Register[ic].HPVstageE[8]>10||Register[ic].HPVstageE[9]>10||Register[ic].HPVstageE[10]>10||
-								Register[ic].HPVstageE[11]>10||Register[ic].HPVstageE[12]>10) && Register[ic].AliveInd==1) {Register[ic].TrueStage=4;}
-							if ((Register[ic].HPVstageE[0]>14||Register[ic].HPVstageE[1]>14||Register[ic].HPVstageE[2]>14||Register[ic].HPVstageE[3]>14||Register[ic].HPVstageE[4]>14||Register[ic].HPVstageE[5]>14||
-								Register[ic].HPVstageE[6]>14||Register[ic].HPVstageE[7]>14||Register[ic].HPVstageE[8]>14||Register[ic].HPVstageE[9]>14||Register[ic].HPVstageE[10]>14||
-								Register[ic].HPVstageE[11]>14||Register[ic].HPVstageE[12]>14) && Register[ic].AliveInd==1) {Register[ic].TrueStage=5;}
+					for (xx = 0; xx < 13; xx++){
+						Register[ic].GetNewHPVstate(ic + 1, rSTI[ic][8 + xx], xx);
+					}
+					if(Register[ic].SexInd==1){
+						Register[ic].TrueStage=0;
+						if ((Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, Register[ic].lsil)) && Register[ic].AliveInd==1) { 
+							Register[ic].TrueStage=1;}
+						if ((Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, Register[ic].hsil)) && Register[ic].AliveInd==1) { 
+							Register[ic].TrueStage=2;}
+						if ((Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, Register[ic].cc_un)) && Register[ic].AliveInd==1) { 
+							Register[ic].TrueStage=3;}
+						if ((Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, Register[ic].cc_diag)) && Register[ic].AliveInd==1) { 
+							Register[ic].TrueStage=4;}
+						if ((Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {15})) && Register[ic].AliveInd==1) { 
+							Register[ic].TrueStage=5;}
 
-							Register[ic].HPVstatus=0;
-							if(Register[ic].TrueStage>0||Register[ic].HPVstageE[0]==1||Register[ic].HPVstageE[1]==1||
-							Register[ic].HPVstageE[2]==1||Register[ic].HPVstageE[3]==1||Register[ic].HPVstageE[4]==1||
-							Register[ic].HPVstageE[5]==1||Register[ic].HPVstageE[6]==1||Register[ic].HPVstageE[7]==1||
-							Register[ic].HPVstageE[8]==1||Register[ic].HPVstageE[9]==1||Register[ic].HPVstageE[10]==1||
-							Register[ic].HPVstageE[11]==1||Register[ic].HPVstageE[12]==1) {Register[ic].HPVstatus=1;}
-						}				//}
+						Register[ic].HPVstatus=0;
+						if(Register[ic].TrueStage>0||Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})) {
+							Register[ic].HPVstatus=1;}
+					}				
 					//else{ Register[ic].GetNewHPVstate(ic + 1, rSTI[ic][8 + WhichType], WhichType); }
 				}
 			}
@@ -7476,9 +7452,6 @@ void ReadSTDepi(const char *input)
 	file.ignore(255, '\n');
 	file.ignore(255, '\n');
 	file >> SDsuscepHIVadj;
-	file.ignore(255, '\n');
-	file.ignore(255, '\n');
-	file >> PropVacc;
 	file.ignore(255, '\n');
 	file.ignore(255, '\n');
 	for (iz = 0; iz<13; iz++){
@@ -8424,6 +8397,7 @@ void ReadSTDparameters()
 
 void ReadAllInputFiles()
 {
+	ReadCCStrategies();
 	ReadSexAssumps("SexAssumps.txt");
 	ReadSTDepi("STDepidemiology.txt");
 	ReadRatesByYear();
@@ -8436,7 +8410,6 @@ void ReadAllInputFiles()
 	ReadTimeinCIN3();
 	ReadScreenData();
 	ReadLifeTimePartners();
-	ReadCCStrategies();
 	
 }
 
@@ -8755,15 +8728,8 @@ void StoreOutputs()
 			//RandomUniformHPV.RecordSample("RandomUniformHPV.txt");
 			//HPVparamsLogL.RecordSample("HPVparamsLogL.txt");
 			if(ParamCombs==1) {
-				//RSApop.SavePopPyramid("PopulationPyramid.txt");	
 				RSApop.SaveNewScreen("ModelCoverage.txt");
-
 				RSApop.SaveCancerCases("CancerCases.txt");
-				/*for(xx=0; xx<13; xx++){
-					NewCCneg[xx].RecordSample("NewCCneg.txt",xx);
-					NewCCpos[xx].RecordSample("NewCCpos.txt",xx);
-					NewCCart[xx].RecordSample("NewCCart.txt",xx);
-				}*/
 			}
 			if(CCcalib==1){
 				/*CC_diag_IR.RecordSample("CC_diag_IR.txt");
@@ -10440,47 +10406,14 @@ void Indiv::GetNewHPVstate(int ID, double p, int type)
 			}
 		}
 			
-		//if(CIN3distribution == 1){
-			if (HPVstage[type] == 4 && HPVstageE[type] == 4 && HPVstage[0] != 5 && HPVstage[1] != 5 && HPVstage[2] != 5 && HPVstage[3] != 5 && HPVstage[4] != 5 &&
-				HPVstage[5] != 5 && HPVstage[6] != 5 && HPVstage[7] != 5 && HPVstage[8] != 5 && HPVstage[9] != 5 && HPVstage[10] != 5 && 
-				HPVstage[11] != 5 && HPVstage[12] != 5 && HPVstage[0] < 8 && HPVstage[1] < 8 && HPVstage[2] < 8 && HPVstage[3] < 8 && HPVstage[4] < 8 &&
-				HPVstage[5] < 8 && HPVstage[6] < 8 && HPVstage[7] < 8 && HPVstage[8] < 8 && HPVstage[9] < 8 && HPVstage[10] < 8 && 
-				HPVstage[11] < 8 && HPVstage[12] < 8 ){
-				TimeinCIN3[type] += 1;
-			}
-		//}
+		if (HPVstage[type] == 4 && HPVstageE[type] == 4 && HPVstage[0] != 5 && HPVstage[1] != 5 && HPVstage[2] != 5 && HPVstage[3] != 5 && HPVstage[4] != 5 &&
+			HPVstage[5] != 5 && HPVstage[6] != 5 && HPVstage[7] != 5 && HPVstage[8] != 5 && HPVstage[9] != 5 && HPVstage[10] != 5 && 
+			HPVstage[11] != 5 && HPVstage[12] != 5 && HPVstage[0] < 8 && HPVstage[1] < 8 && HPVstage[2] < 8 && HPVstage[3] < 8 && HPVstage[4] < 8 &&
+			HPVstage[5] < 8 && HPVstage[6] < 8 && HPVstage[7] < 8 && HPVstage[8] < 8 && HPVstage[9] < 8 && HPVstage[10] < 8 && 
+			HPVstage[11] < 8 && HPVstage[12] < 8 ){
+			TimeinCIN3[type] += 1;
+		}
 	}
-	
-	//TrueStage=0;
- 	
-	/*if (AnyHPV(HPVstageE, allhpv, lsil) && AliveInd==1) { TrueStage=1;} 
-	if (AnyHPV(HPVstageE, allhpv, hsil) && AliveInd==1) {TrueStage=2;}
-	if (AnyHPV(HPVstageE, allhpv, cc_un) && AliveInd==1) {TrueStage=3;}
-	if (AnyHPV(HPVstageE, allhpv, cc_diag) && AliveInd==1) {TrueStage=4;}
-	if (AnyHPV(HPVstageE, allhpv, recover) && AliveInd==1) {TrueStage=5;}*/
-
-/*if ((HPVstageE[0]==2||HPVstageE[1]==2||HPVstageE[2]==2||HPVstageE[3]==2||HPVstageE[4]==2||HPVstageE[5]==2||
-		HPVstageE[6]==2||HPVstageE[7]==2||HPVstageE[8]==2||HPVstageE[9]==2||HPVstageE[10]==2||
-		HPVstageE[11]==2||HPVstageE[12]==2) && AliveInd==1) { TrueStage=1;}
-	if ((HPVstageE[0]==3||HPVstageE[1]==3||HPVstageE[2]==3||HPVstageE[3]==3||HPVstageE[4]==3||HPVstageE[5]==3||
-		HPVstageE[6]==3||HPVstageE[7]==3||HPVstageE[8]==3||HPVstageE[9]==3||HPVstageE[10]==3||
-		HPVstageE[11]==3||HPVstageE[12]==3||HPVstageE[0]==4||HPVstageE[1]==4||HPVstageE[2]==4||HPVstageE[3]==4||HPVstageE[4]==4||HPVstageE[5]==4||
-		HPVstageE[6]==4||HPVstageE[7]==4||HPVstageE[8]==4||HPVstageE[9]==4||HPVstageE[10]==4||
-		HPVstageE[11]==4||HPVstageE[12]==4) && AliveInd==1) {TrueStage=2;}
-	if ((HPVstageE[0]==5||HPVstageE[1]==5||HPVstageE[2]==5||HPVstageE[3]==5||HPVstageE[4]==5||HPVstageE[5]==5||
-		HPVstageE[6]==5||HPVstageE[7]==5||HPVstageE[8]==5||HPVstageE[9]==5||HPVstageE[10]==5||
-		HPVstageE[11]==5||HPVstageE[12]==5||HPVstageE[0]>7||HPVstageE[1]>7||HPVstageE[2]>7||HPVstageE[3]>7||HPVstageE[4]>7||HPVstageE[5]>7||
-		HPVstageE[6]>7||HPVstageE[7]>7||HPVstageE[8]>7||HPVstageE[9]>7||HPVstageE[10]>7||
-		HPVstageE[11]>7||HPVstageE[12]>7) && AliveInd==1) {TrueStage=3;}
-	if ((HPVstageE[0]>10||HPVstageE[1]>10||HPVstageE[2]>10||HPVstageE[3]>10||HPVstageE[4]>10||HPVstageE[5]>10||
-		HPVstageE[6]>10||HPVstageE[7]>10||HPVstageE[8]>10||HPVstageE[9]>10||HPVstageE[10]>10||
-		HPVstageE[11]>10||HPVstageE[12]>10) && AliveInd==1) {TrueStage=4;}
-	if ((HPVstageE[0]>14||HPVstageE[1]>14||HPVstageE[2]>14||HPVstageE[3]>14||HPVstageE[4]>14||HPVstageE[5]>14||
-		HPVstageE[6]>14||HPVstageE[7]>14||HPVstageE[8]>14||HPVstageE[9]>14||HPVstageE[10]>14||
-		HPVstageE[11]>14||HPVstageE[12]>14) && AliveInd==1) {TrueStage=5;}
-
-	HPVstatus=0;
-	if(TrueStage>0||AnyHPV(HPVstage, allhpv, {1})) {HPVstatus=1;}	*/
 }
 
 void Pop::GetNumbersByHPVstageAge()
@@ -12257,17 +12190,12 @@ void Pop::GetMacDprev()
 			iy = Register[ic].AgeGroup-3;
 			if(Register[ic].HIVstage==0){
 				TotPop[iy] +=1;
-				if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||
-					Register[ic].HPVstage[4]==1||Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||
-					Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1)
+				if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1}))
 					{TotHPV[iy] += 1;}
 			}
 			else{
 				TotPop[7+iy] +=1;
-				if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||
-					Register[ic].HPVstage[4]==1||Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||
-					Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||
-					Register[ic].HPVstage[12]==1)
+				if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1}))
 					{TotHPV[7+iy] += 1;}
 			}
 		}
@@ -12426,8 +12354,7 @@ void Indiv::ScreenAlgorithm(int ID, double rea,  double ade, double tts, double 
 				//file << CurrYear << " " << HIVstage << " " << AgeExact << endl;
 				//file.close();	
 				RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
-				if(HPVstage[0]==5||HPVstage[0]==8||HPVstage[0]==9||HPVstage[0]==10||
-					HPVstage[1]==5||HPVstage[1]==8||HPVstage[1]==9||HPVstage[1]==10) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
+				if(AnyHPV(HPVstage,  hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 				if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 				for(int xx=0; xx<13; xx++) {
 					if(HPVstage[xx]==5) {
@@ -12798,8 +12725,7 @@ void Indiv::WHOScreenAlgorithm(int ID,  double tts, double ttC, double clr, doub
 	if(TrueStage==3 && tts < 0.94){
 		DiagnosedCC=1;
 		RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
-		if(HPVstage[0]==5||HPVstage[0]==8||HPVstage[0]==9||HPVstage[0]==10||
-			HPVstage[1]==5||HPVstage[1]==8||HPVstage[1]==9||HPVstage[1]==10) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
+		if(AnyHPV(HPVstage,hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 		if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 		for(int xx=0; xx<13; xx++) {
 			if(HPVstage[xx]==5) {
@@ -13274,27 +13200,21 @@ void Pop::GetCurrHPVstage()
 				}
 				if(Register[ic].HIVstage==0 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65negF[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1||Register[ic].TrueStage>0){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})||Register[ic].TrueStage>0){
 						HPVtransitionCC.TotHPV15to65negF[CurrYear-StartYear] += 1;
 					}
 					if (Register[ic].TrueStage > 1 ){HPVtransitionCC.TotHSILNEG[CurrYear-StartYear] += 1; }   
 				}
 				if(Register[ic].HIVstage>0 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65posF[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1||Register[ic].TrueStage>0){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})||Register[ic].TrueStage>0){
 						HPVtransitionCC.TotHPV15to65posF[CurrYear-StartYear] += 1;
 					}
 					if (Register[ic].TrueStage > 1 ){HPVtransitionCC.TotHSILPOS[CurrYear-StartYear] += 1; }   	
 				}
 				if(Register[ic].HIVstage==5 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65artF[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1||Register[ic].TrueStage>0){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})||Register[ic].TrueStage>0){
 						HPVtransitionCC.TotHPV15to65artF[CurrYear-StartYear] += 1;
 					}
 					if (Register[ic].TrueStage > 1 ){HPVtransitionCC.TotHSILART[CurrYear-StartYear] += 1; }   	
@@ -13321,25 +13241,19 @@ void Pop::GetCurrHPVstage()
 			if(Register[ic].SexInd == 0){
 				if(Register[ic].HIVstage==0 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65negM[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})){
 						HPVtransitionCC.TotHPV15to65negM[CurrYear-StartYear] += 1;
 					}	
 				}
 				if(Register[ic].HIVstage>0 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65posM[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})){
 						HPVtransitionCC.TotHPV15to65posM[CurrYear-StartYear] += 1;
 					}					
 				}
 				if(Register[ic].HIVstage==5 && Register[ic].AgeExact>=15 && Register[ic].AgeExact<65){
 					HPVtransitionCC.TotPop15to65artM[CurrYear-StartYear] += 1;
-					if(Register[ic].HPVstage[0]==1||Register[ic].HPVstage[1]==1||Register[ic].HPVstage[2]==1||Register[ic].HPVstage[3]==1||Register[ic].HPVstage[4]==1||
-					Register[ic].HPVstage[5]==1||Register[ic].HPVstage[6]==1||Register[ic].HPVstage[7]==1||Register[ic].HPVstage[8]==1||Register[ic].HPVstage[9]==1||
-					Register[ic].HPVstage[10]==1||Register[ic].HPVstage[11]==1||Register[ic].HPVstage[12]==1){
+					if(Indiv::AnyHPV(Register[ic].HPVstage,  Register[ic].allhpv, {1})){
 						HPVtransitionCC.TotHPV15to65artM[CurrYear-StartYear] += 1;
 					}					
 				}
@@ -15136,7 +15050,7 @@ void ReadCCStrategies()
 	data.at("HPVvacc").get_to(HPVvacc);
 	data.at("BOYSvacc").get_to(BOYSvacc);
 	data.at("RoutineScreening").get_to(RoutineScreening);
-	/*data.at("CCcalib").get_to(CCcalib);			 
+	data.at("CCcalib").get_to(CCcalib);			 
 	data.at("PerfectSchedule").get_to(PerfectSchedule);	
 	data.at("HPVDNA").get_to(HPVDNA);			
 	data.at("HPVDNAThermal").get_to(HPVDNAThermal);		
@@ -15159,7 +15073,7 @@ void ReadCCStrategies()
 	data.at("OneType").get_to(OneType);			 
 	data.at("WhichType").get_to(WhichType);			
 	data.at("targets").get_to(targets);			
-	data.at("GetMacD").get_to(GetMacD);	*/	
+	data.at("GetMacD").get_to(GetMacD);	
 
 }
 
