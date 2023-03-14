@@ -2521,7 +2521,7 @@ void Indiv::GetNewHIVstate(int ID, double p, double p2)
 		 GotVaccOffer=1;
 		 if(p2<PropVaccinatedHIV){
 			GotVacc = 1;
-			RSApop.NewVACC[54*SexInd + 18 + AgeGroup][CurrYear-StartYear] += 1;
+			RSApop.NewVACC[18*SexInd + AgeGroup][CurrYear-StartYear] += 1;
 			VaccinationStatus[0]=1;
 			VaccinationStatus[1]=1;
 			/*VaccinationStatus[2]=1;
@@ -5008,7 +5008,7 @@ void Pop::ResetFlow()
 		RSApop.NewThermal[iy][CurrYear - StartYear]=0;
 		RSApop.GetReferred[iy][CurrYear - StartYear]=0;
 	}
-	for (iy=0; iy<108; iy++){
+	for (iy=0; iy<36; iy++){
 		RSApop.NewVACC[iy][CurrYear - StartYear]=0;
 	}	
 }
@@ -8797,7 +8797,7 @@ void StoreOutputs()
 				CC_diag_ASR_death.RecordSample("CC_diag_ASR_death.txt");
 				CC_diag_ASR1618.RecordSample("CC_diag_ASR1618.txt");
 				CC_diag_ASR_ART.RecordSample("CC_diag_ASR_ART.txt");*/
-				CC_ASR2.RecordSample("CC_ASR2.txt");
+				/*CC_ASR2.RecordSample("CC_ASR2.txt");
 				CC_diag_ASR2.RecordSample("CC_diag_ASR2.txt");
 				CC_diag_ASR_death2.RecordSample("CC_diag_ASR_death2.txt");
 				CC_ASR_death2.RecordSample("CC_ASR_death2.txt");
@@ -8805,9 +8805,9 @@ void StoreOutputs()
 				CC_ASR3.RecordSample("CC_ASR3.txt");
 				CC_diag_ASR3.RecordSample("CC_diag_ASR3.txt");
 				CC_diag_ASR_death3.RecordSample("CC_diag_ASR_death3.txt");
-				CC_ASR_death3.RecordSample("CC_ASR_death3.txt");
+				CC_ASR_death3.RecordSample("CC_ASR_death3.txt");*/
 				
-				CC_20.RecordSample("CC_20.txt");
+				/*CC_20.RecordSample("CC_20.txt");
 				CC_25.RecordSample("CC_25.txt");
 				CC_30.RecordSample("CC_30.txt");
 				CC_35.RecordSample("CC_35.txt");
@@ -8829,7 +8829,7 @@ void StoreOutputs()
 				CC_60diag.RecordSample("CC_60diag.txt");
 				CC_65diag.RecordSample("CC_65diag.txt");
 				CC_70diag.RecordSample("CC_70diag.txt");
-				CC_75diag.RecordSample("CC_75diag.txt");
+				CC_75diag.RecordSample("CC_75diag.txt");*/
 				
 				//StageI.RecordSample("StageI.txt");
 				//StageII.RecordSample("StageII.txt");
@@ -8857,12 +8857,9 @@ void StoreOutputs()
 					//GetReferred.RecordSample("GetReferred.txt");
 					//GetTreatment.RecordSample("GetTreatment.txt");
 					for(xx=0; xx<13; xx++){
-						NewCCneg[xx].RecordSample("NewCCneg.txt",xx);
-						NewCCpos[xx].RecordSample("NewCCpos.txt",xx);
-						NewCCart[xx].RecordSample("NewCCart.txt",xx);
-						/*NewHPVneg[xx].RecordSample("NewHPVneg.txt",xx);
-						NewHPVpos[xx].RecordSample("NewHPVpos.txt",xx);
-						NewHPVart[xx].RecordSample("NewHPVart.txt",xx);*/
+						NewCC[xx].RecordSample("NewCC.txt",xx);
+						/*NewHPV[xx].RecordSample("NewHPV.txt",xx);
+						*/
 					}
 				}
 			}
@@ -8935,7 +8932,7 @@ void AggregateSims()
 		CalcTotalLogL();
 	}
 
-	if(HPVind==1){
+	/*if(HPVind==1){
 		for(iy=0; iy<136; iy++){
 				CC_diag_IR.out[SimCount2][iy] = 0.0;
 				CC_diag_ASR.out[SimCount2][iy] = 0.0;
@@ -8988,18 +8985,18 @@ void AggregateSims()
 		for(ix=3; ix<18; ix++){
 			for(iy=0; iy<ProjectionTerm; iy++){
 				CC_ASR.out[SimCount2][iy] += RSApop.NewCancer[ix][iy]*WORLD[ix]/RSApop.PopPyramidAll[ix][iy];
-				CC_diag_ASR.out[SimCount2][iy] += RSApop.NewDiagCancer[ix][iy]*WORLD[ix]/RSApop.PopPyramidAll[ix][iy];
+				CC_diag_ASR.out[SimCount2][iy] += (RSApop.NewDiagCancer[ix][iy]+RSApop.NewDiagCancer[ix+18][iy]+RSApop.NewDiagCancer[ix+36][iy])*WORLD[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR1618.out[SimCount2][iy] += RSApop.NewDiagCancer1618[ix][iy]*WORLD[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR_death.out[SimCount2][iy] += RSApop.NewDiagCancerDeath[ix][iy]*WORLD[ix]/RSApop.PopPyramidAll[ix][iy];
 
 				CC_ASR2.out[SimCount2][iy] += RSApop.NewCancer[ix][iy]*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
-				CC_diag_ASR2.out[SimCount2][iy] += RSApop.NewDiagCancer[ix][iy]*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
+				CC_diag_ASR2.out[SimCount2][iy] += (RSApop.NewDiagCancer[ix][iy]+RSApop.NewDiagCancer[ix+18][iy]+RSApop.NewDiagCancer[ix+36][iy])*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR16182.out[SimCount2][iy] += RSApop.NewDiagCancer1618[ix][iy]*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR_death2.out[SimCount2][iy] += RSApop.NewDiagCancerDeath[ix][iy]*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_ASR_death2.out[SimCount2][iy] += RSApop.NewCancerDeath[ix][iy]*WORLD2[ix]/RSApop.PopPyramidAll[ix][iy];
 
 				CC_ASR3.out[SimCount2][iy] += RSApop.NewCancer[ix][iy]*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
-				CC_diag_ASR3.out[SimCount2][iy] += RSApop.NewDiagCancer[ix][iy]*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
+				CC_diag_ASR3.out[SimCount2][iy] += (RSApop.NewDiagCancer[ix][iy]+RSApop.NewDiagCancer[ix+18][iy]+RSApop.NewDiagCancer[ix+36][iy])*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR16183.out[SimCount2][iy] += RSApop.NewDiagCancer1618[ix][iy]*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_diag_ASR_death3.out[SimCount2][iy] += RSApop.NewDiagCancerDeath[ix][iy]*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
 				CC_ASR_death3.out[SimCount2][iy] += RSApop.NewCancerDeath[ix][iy]*WORLD3[ix]/RSApop.PopPyramidAll[ix][iy];
@@ -9011,7 +9008,7 @@ void AggregateSims()
 		}
 		for(ix=3; ix<18; ix++){
 			for(iy=0; iy<ProjectionTerm; iy++){
-				NewDiag[iy] += RSApop.NewDiagCancer[ix][iy];
+				NewDiag[iy] += (RSApop.NewDiagCancer[ix][iy]+RSApop.NewDiagCancer[ix+18][iy]+RSApop.NewDiagCancer[ix+36][iy]);
 				TotPop[iy] += RSApop.PopPyramidAll[ix][iy];
 			}
 		}
@@ -9034,19 +9031,20 @@ void AggregateSims()
 			CC_60.out[SimCount2][iy] = RSApop.NewCancer[12][iy]*100000.0/RSApop.PopPyramidAll[12][iy];
 			CC_65.out[SimCount2][iy] = RSApop.NewCancer[13][iy]*100000.0/RSApop.PopPyramidAll[13][iy];
 			CC_70.out[SimCount2][iy] = RSApop.NewCancer[14][iy]*100000.0/RSApop.PopPyramidAll[14][iy];
-			CC_20diag.out[SimCount2][iy] = RSApop.NewDiagCancer[4][iy]*100000.0/RSApop.PopPyramidAll[4][iy];
-			CC_25diag.out[SimCount2][iy] = RSApop.NewDiagCancer[5][iy]*100000.0/RSApop.PopPyramidAll[5][iy];
-			CC_30diag.out[SimCount2][iy] = RSApop.NewDiagCancer[6][iy]*100000.0/RSApop.PopPyramidAll[6][iy];
-			CC_35diag.out[SimCount2][iy] = RSApop.NewDiagCancer[7][iy]*100000.0/RSApop.PopPyramidAll[7][iy];
-			CC_40diag.out[SimCount2][iy] = RSApop.NewDiagCancer[8][iy]*100000.0/RSApop.PopPyramidAll[8][iy];
-			CC_45diag.out[SimCount2][iy] = RSApop.NewDiagCancer[9][iy]*100000.0/RSApop.PopPyramidAll[9][iy];
-			CC_50diag.out[SimCount2][iy] = RSApop.NewDiagCancer[10][iy]*100000.0/RSApop.PopPyramidAll[10][iy];
-			CC_55diag.out[SimCount2][iy] = RSApop.NewDiagCancer[11][iy]*100000.0/RSApop.PopPyramidAll[11][iy];
-			CC_60diag.out[SimCount2][iy] = RSApop.NewDiagCancer[12][iy]*100000.0/RSApop.PopPyramidAll[12][iy];
-			CC_65diag.out[SimCount2][iy] = RSApop.NewDiagCancer[13][iy]*100000.0/RSApop.PopPyramidAll[13][iy];
-			CC_70diag.out[SimCount2][iy] = RSApop.NewDiagCancer[14][iy]*100000.0/RSApop.PopPyramidAll[14][iy];
-			CC_75diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[15][iy]+RSApop.NewDiagCancer[16][iy]+RSApop.NewDiagCancer[17][iy])*100000.0/
-				(RSApop.PopPyramidAll[15][iy]+RSApop.PopPyramidAll[16][iy]+RSApop.PopPyramidAll[17][iy]);
+			CC_20diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[4][iy]+RSApop.NewDiagCancer[4+18][iy]+RSApop.NewDiagCancer[4+36][iy])*100000.0/RSApop.PopPyramidAll[4][iy];
+			CC_25diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[5][iy]+RSApop.NewDiagCancer[5+18][iy]+RSApop.NewDiagCancer[5+36][iy])*100000.0/RSApop.PopPyramidAll[5][iy];
+			CC_30diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[6][iy]+RSApop.NewDiagCancer[6+18][iy]+RSApop.NewDiagCancer[6+36][iy])*100000.0/RSApop.PopPyramidAll[6][iy];
+			CC_35diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[7][iy]+RSApop.NewDiagCancer[7+18][iy]+RSApop.NewDiagCancer[7+36][iy])*100000.0/RSApop.PopPyramidAll[7][iy];
+			CC_40diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[8][iy]+RSApop.NewDiagCancer[8+18][iy]+RSApop.NewDiagCancer[8+36][iy])*100000.0/RSApop.PopPyramidAll[8][iy];
+			CC_45diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[9][iy]+RSApop.NewDiagCancer[9+18][iy]+RSApop.NewDiagCancer[9+36][iy])*100000.0/RSApop.PopPyramidAll[9][iy];
+			CC_50diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[10][iy]+RSApop.NewDiagCancer[10+18][iy]+RSApop.NewDiagCancer[10+36][iy])*100000.0/RSApop.PopPyramidAll[10][iy];
+			CC_55diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[11][iy]+RSApop.NewDiagCancer[11+18][iy]+RSApop.NewDiagCancer[11+36][iy])*100000.0/RSApop.PopPyramidAll[11][iy];
+			CC_60diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[12][iy]+RSApop.NewDiagCancer[12+18][iy]+RSApop.NewDiagCancer[12+36][iy])*100000.0/RSApop.PopPyramidAll[12][iy];
+			CC_65diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[13][iy]+RSApop.NewDiagCancer[13+18][iy]+RSApop.NewDiagCancer[13+36][iy])*100000.0/RSApop.PopPyramidAll[13][iy];
+			CC_70diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[14][iy]+RSApop.NewDiagCancer[14+18][iy]+RSApop.NewDiagCancer[14+36][iy])*100000.0/RSApop.PopPyramidAll[14][iy];
+			CC_75diag.out[SimCount2][iy] = (RSApop.NewDiagCancer[15][iy]+RSApop.NewDiagCancer[15+18][iy]+RSApop.NewDiagCancer[15+36][iy]+
+											RSApop.NewDiagCancer[16][iy]+RSApop.NewDiagCancer[16+18][iy]+RSApop.NewDiagCancer[16+36][iy]+
+											RSApop.NewDiagCancer[17][iy]+RSApop.NewDiagCancer[17+18][iy]+RSApop.NewDiagCancer[17+36][iy])*100000.0/(RSApop.PopPyramidAll[15][iy]+RSApop.PopPyramidAll[16][iy]+RSApop.PopPyramidAll[17][iy]);
 		}
 		
 		if(ParamCombs > 1){
@@ -9054,11 +9052,15 @@ void AggregateSims()
 			for(ix=3; ix<18; ix++){
 				for(iy=0; iy<136; iy++){
 					RSApop.NewCancer[ix][iy]=0;
-					RSApop.NewDiagCancer[ix][iy]=0;
 					RSApop.NewDiagCancer1618[ix][iy]=0;
 					RSApop.NewDiagCancerDeath[ix][iy]=0;
 					RSApop.NewCancerDeath[ix][iy]=0;
 					RSApop.PopPyramidAll[ix][iy]=0;
+				}
+			}
+			for(ix=3; ix<54; ix++){
+				for(iy=0; iy<136; iy++){
+					RSApop.NewDiagCancer[ix][iy]=0;
 				}
 			}
 			for(iy=0; iy<136; iy++){
@@ -9072,8 +9074,8 @@ void AggregateSims()
 			}
 		}		
 	}
-	
-	if(HPVind==1){ 
+	*/
+	/*if(HPVind==1){ 
 		for(iy=0; iy<136; iy++){
 			
 			ABprev18to65art.out[SimCount2][iy] = 1.0 *HPVtransitionCC.TotAB18to65art[iy]/HPVtransitionCC.TotPop18to65art[iy];
@@ -9151,7 +9153,7 @@ void AggregateSims()
 			HPVtransitionCC.TotPop15upposF[iy]=0; HPVtransitionCC.TotPop15upartF[iy]=0;
 
 		}
-	}
+	}*/
 	/*if (HIVcalib == 1){
 		HIVtransitionM.GetPrev();
 		HIVtransitionF.GetPrev();
@@ -10240,22 +10242,19 @@ void Indiv::GetNewHPVstate(int ID, double p, int type)
 	}
 	if(SexInd==1){
 		if ((HPVstage[type] == 0 && HPVstageE[type] == 1)  ){  //||(HPVstage[type] == 6 && HPVstageE[type] == 1)
-			if(HIVstage==0) {NewHPVneg[type].out[AgeGroup][CurrYear-StartYear] += 1;}
-			if(HIVstage>0 && HIVstage!=5 ) {NewHPVpos[type].out[AgeGroup][CurrYear-StartYear] += 1;}
-			if(HIVstage==5 ) {NewHPVart[type].out[AgeGroup][CurrYear-StartYear] += 1;}
+			NewHPV[type].out[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 		}
 		if (HPVstage[type] == 4 && HPVstageE[type] == 5){
 			DiagCCPost2000.out[SimCount2][1] += 1;
 			RSApop.NewCancer[AgeGroup][CurrYear-StartYear] += 1;
-			if(HIVstage==0) {NewCCneg[type].out[AgeGroup][CurrYear-StartYear] += 1;}
-			if(HIVstage>0 && HIVstage!=5 ) {NewCCpos[type].out[AgeGroup][CurrYear-StartYear] += 1;}
-			if(HIVstage==5 ) {NewCCart[type].out[AgeGroup][CurrYear-StartYear] += 1;}
+			NewCC[type].out[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 		}	
 		if ((HPVstage[type] == 5 && HPVstageE[type] == 11)||
 			(HPVstage[type] == 8 && HPVstageE[type] == 12)||
 			(HPVstage[type] == 9 && HPVstageE[type] == 13)||
 			(HPVstage[type] == 10 && HPVstageE[type] == 14)){
-				RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+				DiagnosedCC=1;
+				RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 				if(type==0||type==1) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 				if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 		}
@@ -10696,16 +10695,10 @@ void InitialiseHPV(){
 	HPVTransF[12].HPVObs(1, 0, 1, 0, 0, 11, 0, 0, 2,0);
 
 	for (xx = 0; xx < 13; xx++){
-		for (ii = 0; ii < 18; ii++){
-		//for (ii = 0; ii < ParamCombs; ii++){	
+		for (ii = 0; ii < 54; ii++){
 			for (jj = 0; jj < 136; jj++){
-				//NewHPV[xx].out[ii][jj] = 0;
-				NewCCneg[xx].out[ii][jj] = 0;
-				NewCCpos[xx].out[ii][jj] = 0;
-				NewCCart[xx].out[ii][jj] = 0;
-				NewHPVneg[xx].out[ii][jj] = 0;
-				NewHPVpos[xx].out[ii][jj] = 0;
-				NewHPVart[xx].out[ii][jj] = 0;
+				NewCC[xx].out[ii][jj] = 0;
+				NewHPV[xx].out[ii][jj] = 0;
 			}
 		}
 	}
@@ -10755,7 +10748,7 @@ void InitialiseHPV(){
 			RSApop.GetReferred[iy][is] =0;
 		}
 	}
-	for (iy = 0; iy < 108; iy++){
+	for (iy = 0; iy < 36; iy++){
 		for (is = 0; is<136; is++){
 			RSApop.NewVACC[iy][is] =0;
 			RSApop.ModelVaccCoverage[iy][is]=0;
@@ -10786,6 +10779,7 @@ void InitialiseHPV(){
 			RSApop.HPVprevAll[iy][is] = 0;
 			RSApop.CIN2prev[iy][is] = 0;
 			RSApop.NewCancerDeathHIV[iy][is] = 0;
+			RSApop.NewDiagCancer[iy][is] = 0;
 
 		}
 
@@ -10800,7 +10794,7 @@ void InitialiseHPV(){
 	for (iy = 0; iy<18; iy++){
 		for (is = 0; is<136; is++){
 			RSApop.PopPyramidAll[iy][is] = 0;
-			RSApop.NewDiagCancer[iy][is] = 0;
+			
 			RSApop.NewDiagCancer1618[iy][is] = 0;
 			RSApop.NewCancer[iy][is] = 0;
 			RSApop.NewCancerDeath[iy][is] = 0;
@@ -12042,7 +12036,7 @@ void Pop::AssignVacc2020()
 			Register[ic].AliveInd == 1  && Register[ic].GotVaccOffer==0){ //&& Register[ic].SexInd==1
 				Register[ic].GotVaccOffer = 1;
 				if(r2[ic]<PropVaccinatedHIV){
-					RSApop.NewVACC[54*Register[ic].SexInd + 18 + Register[ic].AgeGroup][CurrYear-StartYear] += 1;
+					RSApop.NewVACC[18*Register[ic].SexInd + Register[ic].AgeGroup][CurrYear-StartYear] += 1;
 					Register[ic].GotVacc = 1;
 					Register[ic].VaccinationStatus[0]=1;
 					Register[ic].VaccinationStatus[1]=1;
@@ -12353,7 +12347,7 @@ void Indiv::ScreenAlgorithm(int ID, double rea,  double ade, double tts, double 
 				//ofstream file("age.txt", std::ios::app);
 				//file << CurrYear << " " << HIVstage << " " << AgeExact << endl;
 				//file.close();	
-				RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+				RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 				if(AnyHPV(HPVstage,  hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 				if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 				for(int xx=0; xx<13; xx++) {
@@ -12724,7 +12718,7 @@ void Indiv::WHOScreenAlgorithm(int ID,  double tts, double ttC, double clr, doub
 
 	if(TrueStage==3 && tts < 0.94){
 		DiagnosedCC=1;
-		RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+		RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 		if(AnyHPV(HPVstage,hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 		if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 		for(int xx=0; xx<13; xx++) {
@@ -12790,7 +12784,7 @@ void Indiv::GetTreated(int ID, double res, double trt, double clr, double regr, 
 		}
 		if(TrueStage==3){
 			DiagnosedCC = 1;
-			RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+			RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 			if(AnyHPV(HPVstage, hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 			if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 			for (xx = 0; xx < 13; xx++)	{
@@ -13021,55 +13015,55 @@ void Pop::SaveNewScreen(const char* filout)
 
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelCoverage[iy][is] << "	"; //Pap smears
+			file << right << RSApop.ModelCoverage[iy][is] << "	"; //Pap smears 1, 2, 3
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelHPVCoverage[iy][is] << "	"; //HPV-DNA tests
+			file << right << RSApop.ModelHPVCoverage[iy][is] << "	"; //HPV-DNA tests 4, 5, 6
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelColpCoverage[iy][is] << "	"; //Colposcopies
+			file << right << RSApop.ModelColpCoverage[iy][is] << "	"; //Colposcopies 7, 8, 9
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelLLETZCoverage[iy][is] << "	"; //LLETZ performed
+			file << right << RSApop.ModelLLETZCoverage[iy][is] << "	"; //LLETZ performed 10, 11, 12
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelVATCoverage[iy][is] << "	";
+			file << right << RSApop.ModelVATCoverage[iy][is] << "	"; //VAT 13, 14, 15 
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelThermalCoverage[iy][is] << "	";
+			file << right << RSApop.ModelThermalCoverage[iy][is] << "	"; //Thermal ablations 16, 17, 18
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelUnnecessaryCoverage[iy][is] << "	";
+			file << right << RSApop.ModelUnnecessaryCoverage[iy][is] << "	"; //Unnecessary treatments 19, 20, 21
 		}
 		file << endl;
 	}
-	for (iy = 0; iy < 108; iy++){
+	for (iy = 0; iy < 36; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelVaccCoverage[iy][is] << "	"; //Catch-up vaccs
+			file << right << RSApop.ModelVaccCoverage[iy][is] << "	"; //Catch-up vaccs for people on/initiating ART 22, 23
 		}
 		file << endl;
 	}
 	for (iy = 0; iy < 54; iy++){
 		for (is = 0; is<136; is++){
-			file << right << RSApop.ModelGetReferred[iy][is] << "	";
+			file << right << RSApop.ModelGetReferred[iy][is] << "	"; //were referred to treatment 24, 25, 26
 		}
 		file << endl;
 	}
@@ -13149,7 +13143,7 @@ void Pop::CalcModelCoverage()
 		RSApop.ModelThermalCoverage[ig][CurrYear-StartYear] += RSApop.NewThermal[ig][CurrYear-StartYear];
 		RSApop.ModelGetReferred[ig][CurrYear-StartYear] += RSApop.GetReferred[ig][CurrYear-StartYear];
 	}
-	for(ig = 0; ig<108; ig++){
+	for(ig = 0; ig<36; ig++){
 		RSApop.ModelVaccCoverage[ig][CurrYear-StartYear] += RSApop.NewVACC[ig][CurrYear-StartYear];
 	}
 	
@@ -13276,13 +13270,7 @@ void Pop::SaveCancerCases(const char* filout)
 		string path = "./output/" + s.str();
 		ofstream file(path.c_str()); // Converts s to a C string
 
-	for (ia = 0; ia < 18; ia++){
-		for (is = 0; is<136; is++){
-			file << right << NewCancer[ia][is] << "	";
-		}
-		file << endl;
-	}
-	for (ia = 0; ia < 18; ia++){
+	for (ia = 0; ia < 54; ia++){
 		for (is = 0; is<136; is++){
 			file << right << NewDiagCancer[ia][is] << "	";
 		}
@@ -13290,25 +13278,7 @@ void Pop::SaveCancerCases(const char* filout)
 	}
 	for (ia = 0; ia < 18; ia++){
 		for (is = 0; is<136; is++){
-			file << right << NewDiagCancerDeath[ia][is] << "	";
-		}
-		file << endl;
-	}
-	for (ia = 0; ia < 18; ia++){
-		for (is = 0; is<136; is++){
-			file << right << NewCancerDeath[ia][is] << "	";
-		}
-		file << endl;
-	}
-	for (ia = 0; ia < 18; ia++){
-		for (is = 0; is<136; is++){
-			file << right << HIVDeath[ia][is] << "	";
-		}
-		file << endl;
-	}
-	for (ia = 0; ia < 18; ia++){
-		for (is = 0; is<136; is++){
-			file << right << HIVDeathM[ia][is] << "	";
+			file << right << NewCancer[ia][is] << "	";
 		}
 		file << endl;
 	}
@@ -13448,7 +13418,7 @@ void Indiv::HPVScreenAlgorithm(int ID, double rea,  double ade, double tts, doub
 					//if test positive with HPV16/18/45 (cancer), 'diagnose'
 					else if (AnyHPV(HPVstage, hpv161845, cc_un)) {
 						DiagnosedCC = 1;
-						RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+						RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 						if(AnyHPV(HPVstage, hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 						if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 						for (xx = 0; xx < 13; xx++)	{
@@ -13560,7 +13530,7 @@ void Indiv::HPVScreenAlgorithm(int ID, double rea,  double ade, double tts, doub
 
 								if(TrueStage==3 && ScreenResult == 2 && CCd<0.35) {  //CCd is sensitivity of Pap to pick up cancer
 									DiagnosedCC = 1;
-									RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+									RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 									if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 									for(int xx=0; xx<13; xx++) {
 										if(HPVstage[xx]==5) {
@@ -13855,7 +13825,7 @@ void Indiv::HPVScreenAlgorithm(int ID, double rea,  double ade, double tts, doub
 
 						if(TrueStage==3 && ScreenResult == 2 && CCd<0.35) {  //CCd is sensitivity of Pap to pick up cancer
 							DiagnosedCC = 1;
-							RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+							RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 							if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 							for(int xx=0; xx<13; xx++) {
 								if(HPVstage[xx]==5) {
@@ -14188,7 +14158,7 @@ void Indiv::HPV_ThermalScreenAlgorithm(int ID, double rea,  double ade, double t
 					}	
 					else if (AnyHPV(HPVstage, hpv161845, cc_un)) {
 							DiagnosedCC = 1;
-							RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+							RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 							if(AnyHPV(HPVstage, hpv1618, cc_un)) {RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 							if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 							for (xx = 0; xx < 13; xx++)	{
@@ -14351,7 +14321,7 @@ void Indiv::HPV_ThermalScreenAlgorithm(int ID, double rea,  double ade, double t
 							}
 							else if(TrueStage == 3){
 								DiagnosedCC = 1;
-								RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+								RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 								if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
 								for (xx = 0; xx < 13; xx++)	{
 									if(HPVstage[xx]==5) {
@@ -14564,7 +14534,7 @@ void Indiv::HPV_ThermalScreenAlgorithm(int ID, double rea,  double ade, double t
 					}	
 					else if(TrueStage==3){
 						DiagnosedCC = 1;
-						RSApop.NewDiagCancer[AgeGroup][CurrYear-StartYear] += 1;
+						RSApop.NewDiagCancer[zz*18 + AgeGroup][CurrYear-StartYear] += 1;
 						if (AnyHPV(HPVstage,hpv1618, cc_un)) {
 							RSApop.NewDiagCancer1618[AgeGroup][CurrYear-StartYear] += 1;}
 						if(HIVstage==5 ) {RSApop.NewDiagCancerART[CurrYear-StartYear] += 1;}
@@ -14928,6 +14898,31 @@ void Pop::SaveCancerDeaths(const char* filout)
 		}
 		file << endl;
 	}
+	for (ia = 0; ia < 18; ia++){
+		for (is = 0; is<136; is++){
+			file << right << NewDiagCancerDeath[ia][is] << "	";
+		}
+		file << endl;
+	}
+	for (ia = 0; ia < 18; ia++){
+		for (is = 0; is<136; is++){
+			file << right << NewCancerDeath[ia][is] << "	";
+		}
+		file << endl;
+	}
+	for (ia = 0; ia < 18; ia++){
+		for (is = 0; is<136; is++){
+			file << right << HIVDeath[ia][is] << "	";
+		}
+		file << endl;
+	}
+	for (ia = 0; ia < 18; ia++){
+		for (is = 0; is<136; is++){
+			file << right << HIVDeathM[ia][is] << "	";
+		}
+		file << endl;
+	}
+	
 	file.close();
 }
 

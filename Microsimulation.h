@@ -588,7 +588,7 @@ class PostOutputArray3
 public:
 	PostOutputArray3();
 
-	double out[18][136]; // None of the arrays require > 136 columns. 
+	double out[54][136]; // None of the arrays require > 136 columns. 
 
 	void RecordSample(const char* filout, int type);
 };
@@ -1404,7 +1404,7 @@ public:
 	int NewCancerDeath[18][136];
 	int NewCancerDeathHIV[54][136];
 	int NewCancerART[136];
-	int NewDiagCancer[18][136];
+	int NewDiagCancer[54][136];
 	int NewDiagCancer1618[18][136];
 	int NewDiagCancerDeath[18][136];
 	int HIVDeath[18][136];
@@ -1725,12 +1725,8 @@ PartnerCohort FemPartners[16][2]; // Cohorts of women eligible to enter relation
 std::vector<HPVTransition> HPVTransM(13);
 std::vector<HPVTransition> HPVTransF(13);
 
-std::vector<PostOutputArray3> NewHPVneg(13);
-std::vector<PostOutputArray3> NewHPVpos(13);
-std::vector<PostOutputArray3> NewHPVart(13);
-std::vector<PostOutputArray3> NewCCneg(13);
-std::vector<PostOutputArray3> NewCCpos(13);
-std::vector<PostOutputArray3> NewCCart(13);
+std::vector<PostOutputArray3> NewHPV(13);
+std::vector<PostOutputArray3> NewCC(13);
 
 //PostOutputArray3 TimeinCIN3age(30);
 //PostOutputArray3 EverinCIN3age(30);
