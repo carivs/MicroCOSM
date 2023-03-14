@@ -10513,7 +10513,7 @@ void PostOutputArray3::RecordSample(const char *filout, int type)
 	string path = "./output/" + s.str();
 	ofstream file(path.c_str()); // Converts s to a C string
 
-	for (i = 0; i<18; i++){
+	for (i = 0; i<54; i++){
 		file << setw(6) << right << i << "	";
 		for (c = 0; c<136; c++){
 			file << "	" << setw(10) << right << out[i][c];
